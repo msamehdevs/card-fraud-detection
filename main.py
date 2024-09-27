@@ -58,6 +58,13 @@ data_balanced = pd.concat([data_majority_downsampled, data_minority])
 class_distribution = data_balanced['is_fraud'].value_counts()
 print(class_distribution)
 
+x_balanced = data_balanced.drop(columns=['is_fraud', 'trans_date_trans_time', 'merchant', 'category', 'gender', 'job'])
+y_balanced = data_balanced['is_fraud']
+
+
+x_resampled_balanced, y_resampled_balanced = smote.fit_resample(x, y)
+
+
 # class_distribution = data['is_fraud'].value_counts()
 # print(class_distribution)
 
@@ -69,7 +76,7 @@ print(class_distribution)
 # plt.show()
 
 
-X_train, X_test, y_train, y_test = train_test_split(x_resampled, y_resampled, test_size=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(x_resampled_balanced, y_resampled_balanced, test_size=0.2, random_state=42)
 
 model = RandomForestClassifier(random_state=42)
 
